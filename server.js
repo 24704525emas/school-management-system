@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
 
@@ -10,7 +11,11 @@ const app = express();
 const PORT = 3000;
 const DB_PATH = path.join(__dirname, 'db.json');
 
-app.use(cors());
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(',')
+    : ['http://localhost:3000'];
+
+app.use(cors({ origin: ALLOWED_ORIGINS, credentials: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -28,14 +33,29 @@ function generateId() {
 }
 
 // --- Auth ---
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
         return res.status(400).json({ success: false, message: 'Username and password required' });
     }
     const db = readDB();
-    const user = db.users.find(u => u.username === username && u.password === password);
-    if (user) {
+    const user = db.users.find(u => u.username === username);
+    if (!user) {
+        return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+    // Support bcrypt hashes and plain-text (for backward compatibility during migration)
+    let passwordValid = false;
+    if (user.password && user.password.startsWith('$2')) {
+        passwordValid = await bcrypt.compare(password, user.password);
+    } else {
+        passwordValid = (password === user.password);
+        // Upgrade plain-text to bcrypt hash on successful login
+        if (passwordValid) {
+            user.password = await bcrypt.hash(password, 12);
+            writeDB(db);
+        }
+    }
+    if (passwordValid) {
         return res.json({ success: true, user: { username: user.username, role: user.role, display: user.display } });
     }
     return res.status(401).json({ success: false, message: 'Invalid credentials' });

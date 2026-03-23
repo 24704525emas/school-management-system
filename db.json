@@ -6,25 +6,25 @@
   "users": [
     {
       "username": "easa",
-      "password": "asa",
+      "password": "$2b$12$WOYAUMDGr5iHn/Kp2HKc8O7EM6fpi40FKAOakWGaaBNoY.w5ydEF2",
       "role": "admin",
       "display": "Administrator"
     },
     {
       "username": "principal",
-      "password": "1234",
+      "password": "$2b$12$snfgjc3TRQ6DpXOQuWG3z.iy23rtwvXBMhzsk3Ep3XqMq9rGgEGni",
       "role": "principal",
       "display": "Principal"
     },
     {
       "username": "bursar",
-      "password": "1234",
+      "password": "$2b$12$snfgjc3TRQ6DpXOQuWG3z.iy23rtwvXBMhzsk3Ep3XqMq9rGgEGni",
       "role": "bursar",
       "display": "Bursar"
     },
     {
       "username": "clerk",
-      "password": "1234",
+      "password": "$2b$12$snfgjc3TRQ6DpXOQuWG3z.iy23rtwvXBMhzsk3Ep3XqMq9rGgEGni",
       "role": "clerk",
       "display": "Accounts Clerk"
     }

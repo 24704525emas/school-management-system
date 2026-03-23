@@ -262,9 +262,10 @@ function renderTable(entity, data) {
 }
 
 function renderRow(entity, row, num) {
+  const safeId = String(row.id).replace(/[^a-zA-Z0-9_\-.]/g, '');
   const actions = `
-    <button class="btn-action btn-edit" onclick='editRecord("${entity}", ${JSON.stringify(row.id)})'><i class="fa fa-edit"></i> Edit</button>
-    <button class="btn-action btn-delete" onclick='deleteRecord("${entity}", ${JSON.stringify(row.id)})'><i class="fa fa-trash"></i></button>
+    <button class="btn-action btn-edit" data-entity="${entity}" data-id="${safeId}"><i class="fa fa-edit"></i> Edit</button>
+    <button class="btn-action btn-delete" data-entity="${entity}" data-id="${safeId}"><i class="fa fa-trash"></i></button>
   `;
   switch (entity) {
     case 'students':
@@ -565,6 +566,17 @@ function fmt(n) {
 function capitalize(s) {
   return s ? s.charAt(0).toUpperCase() + s.slice(1) : '';
 }
+
+// ===== Event delegation for table action buttons =====
+document.getElementById('main-content').addEventListener('click', async e => {
+  const editBtn = e.target.closest('.btn-edit[data-entity]');
+  const deleteBtn = e.target.closest('.btn-delete[data-entity]');
+  if (editBtn) {
+    await editRecord(editBtn.dataset.entity, editBtn.dataset.id);
+  } else if (deleteBtn) {
+    await deleteRecord(deleteBtn.dataset.entity, deleteBtn.dataset.id);
+  }
+});
 
 // ===== Startup: Check for existing session =====
 (function checkSession() {
