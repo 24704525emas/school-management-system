@@ -28,8 +28,9 @@ function writeDB(data) {
     fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf8');
 }
 
-function generateId() {
-    return Date.now();
+function generateId(collection) {
+    if (!collection || collection.length === 0) return 1;
+    return Math.max(...collection.map(item => Number(item.id) || 0)) + 1;
 }
 
 // --- Auth ---
@@ -45,7 +46,7 @@ app.post('/api/login', async (req, res) => {
     }
     // Support bcrypt hashes and plain-text (for backward compatibility during migration)
     let passwordValid = false;
-    if (user.password && user.password.startsWith('$2')) {
+    if (user.password && /^\$2[aby]\$/.test(user.password)) {
         passwordValid = await bcrypt.compare(password, user.password);
     } else {
         passwordValid = (password === user.password);
@@ -96,7 +97,7 @@ app.get('/api/auditLog', (req, res) => {
 app.post('/api/auditLog', (req, res) => {
     const db = readDB();
     if (!db.auditLog) db.auditLog = [];
-    const entry = { id: generateId(), ...req.body, when: new Date().toLocaleString() };
+    const entry = { id: generateId(db.auditLog), ...req.body, when: new Date().toLocaleString() };
     db.auditLog.push(entry);
     writeDB(db);
     res.status(201).json(entry);
@@ -125,7 +126,7 @@ app.post('/api/:entity', (req, res) => {
     }
     const db = readDB();
     if (!db[entity]) db[entity] = [];
-    const newItem = { id: generateId(), ...req.body };
+    const newItem = { id: generateId(db[entity]), ...req.body };
     db[entity].push(newItem);
     writeDB(db);
     res.status(201).json(newItem);
