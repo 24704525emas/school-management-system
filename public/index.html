@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EduFinance PNG – School Management System</title>
+<link rel="stylesheet" href="style.css" />
+<!-- Font Awesome 6 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<!-- ===== LOGIN PAGE ===== -->
+<div id="login-page">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="login-logo" id="login-logo-text">PNG</div>
+      <h2 id="login-system-name">EduFinance PNG</h2>
+      <p id="login-system-desc">School Financial Management System</p>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Username</label>
+      <input type="text" id="login-username" class="form-control" placeholder="Enter username" autocomplete="username" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" id="login-password" class="form-control" placeholder="Enter password" autocomplete="current-password" />
+    </div>
+    <div id="login-error" class="alert alert-danger py-2 px-3" style="font-size:0.89rem;"></div>
+    <button class="btn-login" onclick="doLogin()"><i class="fa fa-sign-in-alt me-1"></i> Sign In</button>
+    <p style="text-align:center;margin-top:1rem;font-size:0.78rem;color:#94a3b8;">MAIMA EXPRESS &bull; Papua New Guinea</p>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="main-app" style="display:none;">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+  <!-- SIDEBAR -->
+  <nav id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo" id="sb-logo">PNG</div>
+      <div>
+        <div class="brand-name" id="sb-system-name">EduFinance PNG</div>
+        <div class="brand-sub" id="sb-org-name">MAIMA EXPRESS</div>
+      </div>
+    </div>
+    <div id="sidebar-nav">
+      <!-- Nav items injected by JS -->
+    </div>
+  </nav>
+
+  <!-- TOP NAVBAR -->
+  <div id="topbar">
+    <div style="display:flex;align-items:center;gap:0.5rem;">
+      <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fa fa-bars"></i></button>
+      <span id="page-title">Dashboard</span>
+    </div>
+    <div class="topbar-right">
+      <div class="user-info">
+        <div class="user-name" id="topbar-user">Administrator</div>
+        <div class="user-role" id="topbar-role">Admin</div>
+      </div>
+      <button id="btn-logout" onclick="doLogout()"><i class="fa fa-sign-out-alt"></i> Logout</button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="main-content">
+
+    <!-- ===== DASHBOARD ===== -->
+    <div id="section-dashboard" class="section active">
+      <div class="stats-grid" id="dash-stats"></div>
+      <div class="section-card">
+        <div class="section-header"><h4><i class="fa fa-clock me-2"></i>Recent Audit Activity</h4></div>
+        <ul class="activity-list" id="dash-activity"></ul>
+      </div>
+    </div>
+
+    <!-- ===== STUDENTS ===== -->
+    <div id="section-students" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-user-graduate me-2"></i>Students</h4>
+          <button class="btn-add" onclick="showAddModal('students')"><i class="fa fa-plus"></i> Add Student</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-students"><thead><tr>
+          <th>#</th><th>Name</th><th>Grade</th><th>Total Fee</th><th>Paid</th><th>Balance</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== TEACHERS ===== -->
+    <div id="section-teachers" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-chalkboard-teacher me-2"></i>Teachers</h4>
+          <button class="btn-add" onclick="showAddModal('teachers')"><i class="fa fa-plus"></i> Add Teacher</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-teachers"><thead><tr>
+          <th>#</th><th>Name</th><th>Subject</th><th>Contact</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== ATTENDANCE ===== -->
+    <div id="section-attendance" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-calendar-check me-2"></i>Attendance</h4>
+          <button class="btn-add" onclick="showAddModal('attendance')"><i class="fa fa-plus"></i> Add Record</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-attendance"><thead><tr>
+          <th>#</th><th>Student</th><th>Date</th><th>Status</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== FEES ===== -->
+    <div id="section-fees" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-money-bill-wave me-2"></i>Fees</h4>
+          <button class="btn-add" onclick="showAddModal('fees')"><i class="fa fa-plus"></i> Add Fee</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-fees"><thead><tr>
+          <th>#</th><th>Student</th><th>Amount (K)</th><th>Date</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== INCOME ===== -->
+    <div id="section-incomes" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-arrow-circle-down me-2"></i>Income</h4>
+          <button class="btn-add" onclick="showAddModal('incomes')"><i class="fa fa-plus"></i> Add Income</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-incomes"><thead><tr>
+          <th>#</th><th>Source</th><th>Amount (K)</th><th>Date</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== EXPENSES ===== -->
+    <div id="section-expenses" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-arrow-circle-up me-2"></i>Expenses</h4>
+          <button class="btn-add" onclick="showAddModal('expenses')"><i class="fa fa-plus"></i> Add Expense</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-expenses"><thead><tr>
+          <th>#</th><th>Category</th><th>Amount (K)</th><th>Date</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== BUDGET ===== -->
+    <div id="section-budgets" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-chart-pie me-2"></i>Budget</h4>
+          <button class="btn-add" onclick="showAddModal('budgets')"><i class="fa fa-plus"></i> Add Budget</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-budgets"><thead><tr>
+          <th>#</th><th>Name</th><th>Allocated (K)</th><th>Spent (K)</th><th>Remaining (K)</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== CASHBOOK ===== -->
+    <div id="section-cashbook" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-book-open me-2"></i>Cashbook</h4>
+          <button class="btn-add" onclick="showAddModal('cashbook')"><i class="fa fa-plus"></i> Add Entry</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-cashbook"><thead><tr>
+          <th>#</th><th>Type</th><th>Description</th><th>Amount (K)</th><th>Date</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== APPROVALS ===== -->
+    <div id="section-approvals" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-check-circle me-2"></i>Approvals</h4>
+          <button class="btn-add" onclick="showAddModal('approvals')"><i class="fa fa-plus"></i> New Request</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-approvals"><thead><tr>
+          <th>#</th><th>Request</th><th>Type</th><th>Amount (K)</th><th>Status</th><th>Created</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== STAFF ===== -->
+    <div id="section-staff" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-users me-2"></i>Staff</h4>
+          <button class="btn-add" onclick="showAddModal('staff')"><i class="fa fa-plus"></i> Add Staff</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-staff"><thead><tr>
+          <th>#</th><th>Name</th><th>Role</th><th>Staff ID</th><th>Phone</th><th>Email</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== ASSETS ===== -->
+    <div id="section-assets" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-boxes me-2"></i>Assets</h4>
+          <button class="btn-add" onclick="showAddModal('assets')"><i class="fa fa-plus"></i> Add Asset</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-assets"><thead><tr>
+          <th>#</th><th>Name</th><th>Category</th><th>Qty</th><th>Status</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== AUDITS ===== -->
+    <div id="section-audits" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-file-invoice me-2"></i>Audit Records</h4>
+          <button class="btn-add" onclick="showAddModal('audits')"><i class="fa fa-plus"></i> Add Audit</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-audits"><thead><tr>
+          <th>#</th><th>Period</th><th>Auditor</th><th>Status</th><th>Note</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== INSPECTORATE ===== -->
+    <div id="section-inspectorate" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-search me-2"></i>Inspectorate</h4>
+          <button class="btn-add" onclick="showAddModal('inspectorate')"><i class="fa fa-plus"></i> Add Inspector</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-inspectorate"><thead><tr>
+          <th>#</th><th>Name</th><th>Position</th><th>Phone</th><th>Email</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== DISTRICTS ===== -->
+    <div id="section-districts" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-map-marker-alt me-2"></i>Districts</h4>
+          <button class="btn-add" onclick="showAddModal('districts')"><i class="fa fa-plus"></i> Add District</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-districts"><thead><tr>
+          <th>#</th><th>Name</th><th>LGG</th><th>Province</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== LINKS ===== -->
+    <div id="section-links" class="section">
+      <div class="section-card">
+        <div class="section-header">
+          <h4><i class="fa fa-link me-2"></i>Useful Links</h4>
+          <button class="btn-add" onclick="showAddModal('links')"><i class="fa fa-plus"></i> Add Link</button>
+        </div>
+        <div class="table-wrapper"><table id="tbl-links"><thead><tr>
+          <th>#</th><th>Name</th><th>URL</th><th>Actions</th>
+        </tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+
+    <!-- ===== SETTINGS ===== -->
+    <div id="section-settings" class="section">
+      <div class="section-card" style="max-width:700px;">
+        <div class="section-header"><h4><i class="fa fa-cog me-2"></i>School Settings</h4></div>
+        <div class="settings-grid">
+          <div class="form-group">
+            <label class="form-label">School Name</label>
+            <input type="text" id="set-school-name" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">School Code</label>
+            <input type="text" id="set-school-code" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Address</label>
+            <input type="text" id="set-school-address" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input type="text" id="set-school-phone" class="form-control" />
+          </div>
+        </div>
+        <button class="btn-save" onclick="saveSchool()"><i class="fa fa-save me-1"></i> Save School Info</button>
+      </div>
+      <div class="section-card" style="max-width:700px;margin-top:1.2rem;">
+        <div class="section-header"><h4><i class="fa fa-sliders-h me-2"></i>System Meta Settings</h4></div>
+        <div class="settings-grid">
+          <div class="form-group">
+            <label class="form-label">Organisation Name</label>
+            <input type="text" id="set-meta-orgName" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">System Name</label>
+            <input type="text" id="set-meta-systemName" class="form-control" />
+          </div>
+          <div class="form-group" style="grid-column:1/-1;">
+            <label class="form-label">System Description</label>
+            <input type="text" id="set-meta-systemDesc" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Province</label>
+            <input type="text" id="set-meta-province" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Logo Text</label>
+            <input type="text" id="set-meta-logoText" class="form-control" maxlength="4" />
+          </div>
+        </div>
+        <button class="btn-save" onclick="saveMeta()"><i class="fa fa-save me-1"></i> Save Meta Info</button>
+      </div>
+    </div>
+
+  </div><!-- /#main-content -->
+</div><!-- /#main-app -->
+
+<!-- ===== UNIVERSAL MODAL ===== -->
+<div class="modal-overlay" id="modal-overlay" style="display:none;" onclick="closeModalOnBackdrop(event)">
+  <div class="modal-box" id="modal-box">
+    <div class="modal-header">
+      <h5 id="modal-title">Add / Edit</h5>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div id="modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" id="modal-save-btn" onclick="saveModal()"><i class="fa fa-save me-1"></i> Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOAST CONTAINER ===== -->
+<div id="toast-container"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

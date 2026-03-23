@@ -1,0 +1,210 @@
+{
+  "login": {
+    "user": "easa",
+    "role": "admin"
+  },
+  "users": [
+    {
+      "username": "easa",
+      "password": "$2b$12$WOYAUMDGr5iHn/Kp2HKc8O7EM6fpi40FKAOakWGaaBNoY.w5ydEF2",
+      "role": "admin",
+      "display": "Administrator"
+    },
+    {
+      "username": "principal",
+      "password": "$2b$12$snfgjc3TRQ6DpXOQuWG3z.iy23rtwvXBMhzsk3Ep3XqMq9rGgEGni",
+      "role": "principal",
+      "display": "Principal"
+    },
+    {
+      "username": "bursar",
+      "password": "$2b$12$snfgjc3TRQ6DpXOQuWG3z.iy23rtwvXBMhzsk3Ep3XqMq9rGgEGni",
+      "role": "bursar",
+      "display": "Bursar"
+    },
+    {
+      "username": "clerk",
+      "password": "$2b$12$snfgjc3TRQ6DpXOQuWG3z.iy23rtwvXBMhzsk3Ep3XqMq9rGgEGni",
+      "role": "clerk",
+      "display": "Accounts Clerk"
+    }
+  ],
+  "students": [
+    {
+      "id": 1,
+      "name": "Tina M",
+      "grade": "Grade 8",
+      "totalFee": 500,
+      "paid": 250
+    }
+  ],
+  "teachers": [
+    {
+      "id": 1,
+      "name": "Mr. John",
+      "subject": "Mathematics",
+      "contact": "+675 7000 000"
+    }
+  ],
+  "assets": [
+    {
+      "id": 1,
+      "name": "Library Books",
+      "category": "Books",
+      "qty": 120,
+      "status": "Good"
+    }
+  ],
+  "incomes": [
+    {
+      "id": 1,
+      "source": "GTFF Funds",
+      "amount": 5000,
+      "date": "2026-03-15"
+    },
+    {
+      "id": 1774253683254,
+      "source": "Test",
+      "amount": 100,
+      "date": "2026-04-01"
+    }
+  ],
+  "expenses": [
+    {
+      "id": 1,
+      "category": "Maintenance",
+      "amount": 600,
+      "date": "2026-03-14"
+    }
+  ],
+  "budgets": [
+    {
+      "id": 1,
+      "name": "Supplies",
+      "amount": 2000,
+      "spent": 600
+    }
+  ],
+  "fees": [
+    {
+      "id": 1773566666253,
+      "student": "Emmanuel Jnr ASA",
+      "amount": 3000,
+      "date": "3/15/2026"
+    },
+    {
+      "id": 1773567063572,
+      "student": "Emmanuel Jnr Asa",
+      "amount": 1200,
+      "date": "3/15/2026"
+    },
+    {
+      "id": 1773657023291,
+      "student": "Asa Celine",
+      "amount": 200,
+      "date": "3/16/2026"
+    },
+    {
+      "id": 1774064755053,
+      "student": "Emmanuel Jnr Asa",
+      "amount": 2000,
+      "date": "3/21/2026"
+    },
+    {
+      "id": 1774064940282,
+      "student": "Priscilla Tange",
+      "amount": 2000,
+      "date": "3/21/2026"
+    }
+  ],
+  "staff": [
+    {
+      "id": 1,
+      "name": "Principal Kerea",
+      "role": "Principal",
+      "staffId": "PNG-PR-001",
+      "phone": "+675 7000 001",
+      "email": "principal@school.png"
+    }
+  ],
+  "audits": [
+    {
+      "id": 1,
+      "period": "2025 Q4",
+      "auditor": "District Auditor",
+      "status": "Clear",
+      "note": "All accounts reconciled"
+    }
+  ],
+  "inspectorate": [
+    {
+      "id": 1,
+      "name": "District Inspector",
+      "position": "School Inspector",
+      "phone": "+675 7000 101",
+      "email": "inspector@education.png"
+    }
+  ],
+  "districts": [
+    {
+      "id": 1,
+      "name": "Kabaira District",
+      "lgg": "East LLG",
+      "province": "New Ireland"
+    }
+  ],
+  "links": [
+    {
+      "id": 1,
+      "name": "Provincial Education Board",
+      "url": "https://www.pngeb.gov.pg"
+    }
+  ],
+  "attendance": [
+    {
+      "id": 1,
+      "student": "Tina M",
+      "date": "2026-03-15",
+      "status": "Present"
+    }
+  ],
+  "cashbook": [
+    {
+      "id": 1,
+      "type": "Receipt",
+      "description": "School Fees",
+      "amount": 300,
+      "date": "2026-03-15"
+    }
+  ],
+  "approvals": [
+    {
+      "id": 1,
+      "request": "Stationery purchase",
+      "amount": 120,
+      "type": "Procurement",
+      "status": "Pending",
+      "created": "2026-03-15"
+    }
+  ],
+  "school": {
+    "name": "New Ireland Provincial School",
+    "code": "NI-001",
+    "address": "Matalai, New Ireland",
+    "phone": "+675 7000 000"
+  },
+  "auditLog": [
+    {
+      "id": 1,
+      "action": "Initial data seeded",
+      "when": "3/22/2026, 10:40:08 AM"
+    }
+  ],
+  "meta": {
+    "orgName": "MAIMA EXPRESS",
+    "systemName": "EduFinance PNG",
+    "systemDesc": "School Financial Management System (Offline + Online)",
+    "province": "New Ireland",
+    "logoText": "PNG"
+  }
+}
